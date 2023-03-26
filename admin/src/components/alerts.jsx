@@ -48,33 +48,80 @@ const CustomAlert = (props) => {
     }
   };
 
-  const alertColor = (type) => {
-    switch (type) {
-      case "success":
-        return "green";
-      case "error":
-        return "red";
-      case "info":
-        return "blue";
-      case "warning":
-        return "yellow";
-      default:
-        return "green";
+  const alertColor = (variant, type, code) => {
+    if (type === "bg") {
+      switch (variant) {
+        case "success":
+          return `bg-green-50`;
+        case "error":
+          return `bg-red-50`;
+        case "info":
+          return `bg-blue-50`;
+        case "warning":
+          return `bg-yellow-50`;
+        default:
+          return `bg-green-50`;
+      }
+    } else if (type === "text") {
+      switch (variant) {
+        case "success":
+          return `text-green-800`;
+        case "error":
+          return `text-red-800`;
+        case "info":
+          return `text-blue-800`;
+        case "warning":
+          return `text-yellow-800`;
+        default:
+          return `text-green-800`;
+      }
+    } else if (type === "ring") {
+      switch (variant) {
+        case "success":
+          return `ring-green-600`;
+        case "error":
+          return `ring-red-600`;
+        case "info":
+          return `ring-blue-600`;
+        case "warning":
+          return `ring-yellow-600`;
+        default:
+          return `ring-green-600`;
+      }
+    } else if (type === "border") {
+      switch (variant) {
+        case "success":
+          return `border-green-100`;
+        case "error":
+          return `border-red-100`;
+        case "info":
+          return `border-blue-100`;
+        case "warning":
+          return `border-yellow-100`;
+        default:
+          return `border-green-100`;
+      }
     }
   };
   return (
     <>
       <div
-        className={`rounded-md bg-${alertColor(props.variant)}-50 p-4 ${
+        className={`rounded-md ${alertColor(
+          props.variant,
+          "bg",
+          50
+        )} border ${alertColor(props.variant, "border", 100)} p-4 ${
           props.open ? "block" : "hidden"
         } `}>
         <div className='flex'>
           <div className='flex-shrink-0'>{iconOfAlert(props.variant)}</div>
           <div className='ml-3'>
             <p
-              className={`text-sm font-medium text-${alertColor(
-                props.variant
-              )}-800`}>
+              className={`text-sm font-medium ${alertColor(
+                props.variant,
+                "text",
+                800
+              )}`}>
               {props.message}
             </p>
           </div>
@@ -83,15 +130,23 @@ const CustomAlert = (props) => {
               <button
                 type='button'
                 onClick={props.handleClose}
-                className={`inline-flex rounded-md bg-${alertColor(
-                  props.variant
-                )}-50 p-1.5 text-${alertColor(
-                  props.variant
-                )}-500 hover:bg-${alertColor(
-                  props.variant
-                )}-100 focus:outline-none focus:ring-2 focus:ring-${alertColor(
-                  props.variant
-                )}-600 focus:ring-offset-2 focus:ring-offset-green-50`}>
+                className={`inline-flex rounded-md ${alertColor(
+                  props.variant,
+                  "bg",
+                  50
+                )}  p-1.5 ${alertColor(
+                  props.variant,
+                  "text",
+                  500
+                )} hover:${alertColor(
+                  props.variant,
+                  "bg",
+                  100
+                )} focus:outline-none focus:ring-2 focus:${alertColor(
+                  props.variant,
+                  "ring",
+                  600
+                )} focus:ring-offset-2 focus:ring-offset-green-50`}>
                 <span className='sr-only'>Dismiss</span>
                 <XMarkIcon className='h-5 w-5' aria-hidden='true' />
               </button>

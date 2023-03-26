@@ -2,7 +2,7 @@ import jwtDecode from "jwt-decode";
 
 const isTokenExpired = () => {
   let token = localStorage.getItem("authToken");
-  if (!token) return false;
+  if (!token) return true;
   let decodedToken = jwtDecode(token);
   let currentDate = new Date();
 

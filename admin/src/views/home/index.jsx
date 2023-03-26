@@ -18,16 +18,19 @@ import { PhotoIcon } from "@heroicons/react/24/solid";
 import SelectedItems from "./selectedItems";
 import { useNavigate } from "react-router-dom";
 import isTokenExpired from "../../config/validateToken";
+import MusicList from "./musicList";
 
 export default function Home() {
   const [genre, setGenre] = useState("");
+  const [isUpload, setUploadPage] = useState(false);
   const [fileList, setFileList] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isTokenExpired()) {
+    if (isTokenExpired()) {
+      console.log(isTokenExpired());
       navigate("/login");
     }
     //eslint-disable-next-line
@@ -67,16 +70,8 @@ export default function Home() {
       });
   };
 
-  return (
-    <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-white">
-        <body class="h-full">
-        ```
-      */}
+  const renderUploadView = () => {
+    return (
       <div>
         {loading && (
           <div className='border border-blue-300 shadow rounded-md p-4 max-w-sm w-full mx-auto mt-16'>
@@ -100,13 +95,13 @@ export default function Home() {
             <main className='py-10'>
               <div className='px-4 sm:px-6 lg:px-8'>
                 <form onSubmit={(e) => handleSubmit(e)}>
-                  <div className='my-2'>
+                  <div className='my-2 '>
                     <label
                       htmlFor='genre'
                       className='block text-sm text-left font-medium leading-6 text-gray-900'>
                       Genre
                     </label>
-                    <div className='mt-2'>
+                    <div className='mt-2 flex items-center'>
                       <input
                         id='genre'
                         name='genre'
@@ -115,8 +110,23 @@ export default function Home() {
                         value={genre}
                         onChange={(e) => setGenre(e.target.value)}
                         required
-                        className='block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+                        className='block mr-4 w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
                       />
+                      <div
+                        className='ml-auto w-full flex items-center justify-center
+                      '>
+                        <button
+                          type='submit'
+                          className='w-full mr-2 py-1.5 px-2 rounded-md bg-indigo-700 text-white text-base font-semibold text-center'>
+                          Upload
+                        </button>
+                        <button
+                          type='button'
+                          onClick={() => setUploadPage(false)}
+                          className='w-full py-1.5 px-2 rounded-md bg-lime-700 text-white text-base font-semibold text-center'>
+                          Music List
+                        </button>
+                      </div>
                     </div>
                   </div>
                   <div className='col-span-full'>
@@ -129,7 +139,7 @@ export default function Home() {
                         <div className='mt-4 flex text-sm leading-6 text-gray-600'>
                           <label
                             htmlFor='file-upload'
-                            className='relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500'>
+                            className='relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600   hover:text-indigo-500'>
                             <span>Upload a file</span>
                             <input
                               id='file-upload'
@@ -145,11 +155,6 @@ export default function Home() {
                       </div>
                     </div>
                   </div>
-                  <button
-                    type='submit'
-                    className='w-full mt-2 py-1.5 px-2 rounded-md bg-indigo-700 text-white text-base font-semibold text-center'>
-                    Upload
-                  </button>
                 </form>
                 <SelectedItems items={fileList} handleRemove={handleRemove} />
               </div>
@@ -157,6 +162,26 @@ export default function Home() {
           </div>
         )}
       </div>
+    );
+  };
+
+  const renderView = () => {
+    if (isUpload) return renderUploadView();
+    else return <MusicList handlePageChange={(val) => setUploadPage(val)} />;
+  };
+
+  return (
+    <>
+      {/*
+        This example requires updating your template:
+
+        ```
+        <html class="h-full bg-white">
+        <body class="h-full">
+        ```
+      */}
+
+      {renderView()}
     </>
   );
 }

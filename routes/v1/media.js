@@ -43,7 +43,26 @@ const generateSongModelData = (file, genre, cloudinaryData) => {
 //   res.render("index", { title: "Inventory" });
 // });
 
-router.get("/", (req, res) => res.status(200).send("media connected"));
+router.get("/genres", async (req, res) => {
+  try {
+    const genres = await songModel.distinct("genre");
+    res.status(200).json({ genres: [...genres] });
+  } catch (exception) {
+    console.error(exception);
+    res.status(500).json(exception);
+  }
+});
+
+router.get("/all/:genre", async (req, res) => {
+  const { genre } = req.params;
+  try {
+    const musicList = await songModel.find({ genre: genre });
+    res.status(200).json({ musics: [...musicList] });
+  } catch (exception) {
+    console.error(exception);
+    res.status(500).json(exception);
+  }
+});
 
 router.post("/upload", upload.array("files"), async (req, res) => {
   const files = req.files;

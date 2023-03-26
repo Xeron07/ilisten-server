@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const axiosConfig = axios.create({
-  baseURL: "/",
+  baseURL:
+    process.env.NODE_ENV === "production" ? "/" : "http://localhost:7002",
 });
 
 axiosConfig.defaults.headers.common["x-access-token"] =
