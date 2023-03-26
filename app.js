@@ -6,10 +6,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
-const auth = require("./middleware/auth");
 const v1Router = require("./routes/v1");
-const swaggerUi = require("swagger-ui-express");
-const swaggerDocument = require("./swagger.json");
 const createSocketServer = require("./socket");
 
 const app = express();
