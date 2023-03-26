@@ -8,7 +8,7 @@
     "client": "yarn start --prefix admin",
     "dev": "concurrently \"yarn server\" \"yarn client\"",
     "client:build": "yarn install --prefix admin && yarn build --prefix admin",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install --prefix admin && yarn build --prefix admin"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix admin && npm run build --prefix admin"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
