@@ -43,6 +43,7 @@ export default function Home() {
   const handleRemove = (index) => {
     setFileList(fileList.filter((item, i) => index !== i));
   };
+  const token = localStorage.getItem("authToken") || "";
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -54,7 +55,7 @@ export default function Home() {
       data.append("files", file, file.name);
     });
     axios
-      .post("v1/media/upload", data)
+      .post(`v1/media/upload?token=${token}`, data)
       .then((res) => {
         alert("Success");
         setFileList([]);

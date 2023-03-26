@@ -15,6 +15,8 @@ const MusicList = (props) => {
   const [loading, setLoading] = useState(false);
   const [selectedMusic, setMusic] = useState("");
 
+  const token = localStorage.getItem("authToken") || "";
+
   const classNames = (...classes) => {
     return classes.filter(Boolean).join(" ");
   };
@@ -32,7 +34,7 @@ const MusicList = (props) => {
   const apiCall = () => {
     setLoading(true);
     axios
-      .get(`v1/media/all/${genre}`)
+      .get(`v1/media/all/${genre}?token=${token}`)
       .then((res) => {
         if (res.status === 200) {
           setMusicList(res.data.musics);
@@ -48,7 +50,7 @@ const MusicList = (props) => {
 
   const getGenres = () => {
     axios
-      .get(`v1/media/genres`)
+      .get(`v1/media/genres?token=${token}`)
       .then((res) => {
         if (res.status === 200) {
           setGenreList(res.data.genres);
