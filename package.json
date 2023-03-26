@@ -3,10 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "yarn install --prefix admin && yarn build --prefix admin && node ./bin/www",
     "server": "nodemon ./bin/www",
-    "client": "npm start --prefix admin",
-    "dev": "concurrently \"yarn server\" \"yarn client\""
+    "client": "yarn start --prefix admin",
+    "dev": "concurrently \"yarn server\" \"yarn client\"",
+    "client:build": "yarn install --prefix admin && yarn build --prefix admin",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install --prefix admin && yarn build --prefix admin"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
