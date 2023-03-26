@@ -28,9 +28,9 @@ app.use("/v1", v1Router);
 // });
 //CONFIGURATION FOR PRODUCTION
 // if (process.env.NODE_ENV === "production") {
-app.use(express.static("admin/build"));
+app.use(express.static("public/build"));
 app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "admin", "build", "index.html"));
+  res.sendFile(path.resolve(__dirname, "public", "build", "index.html"));
 });
 
 module.exports = app;
