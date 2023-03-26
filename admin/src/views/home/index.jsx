@@ -13,14 +13,25 @@
   ```
 */
 import axios from "../../config/axios";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import SelectedItems from "./selectedItems";
+import { useNavigate } from "react-router-dom";
+import isTokenExpired from "../../config/validateToken";
 
 export default function Home() {
   const [genre, setGenre] = useState("");
   const [fileList, setFileList] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isTokenExpired()) {
+      navigate("/login");
+    }
+    //eslint-disable-next-line
+  }, []);
 
   const handleFileChange = (e) => {
     setFileList([...fileList, ...e.target.files]);

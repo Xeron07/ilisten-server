@@ -1,6 +1,6 @@
 import jwtDecode from "jwt-decode";
 
-const isExpiredToken = () => {
+const isTokenExpired = () => {
   let token = localStorage.getItem("authToken");
   if (!token) return false;
   let decodedToken = jwtDecode(token);
@@ -10,4 +10,4 @@ const isExpiredToken = () => {
   return decodedToken.exp * 1000 < currentDate.getTime();
 };
 
-export default isExpiredToken;
+export default isTokenExpired;

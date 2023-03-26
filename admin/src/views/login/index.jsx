@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "../../config/axios";
 import CustomAlert from "../../components/alerts";
+import { useNavigate } from "react-router-dom";
 
 const Login = (props) => {
   const [hasError, setError] = useState(false);
@@ -8,6 +9,11 @@ const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
+  const handleLogin = (val) => {
+    if (val) navigate("/");
+  };
   const showErrors = () => {
     if (hasError) {
       return (
@@ -32,7 +38,7 @@ const Login = (props) => {
         const { token } = res.data;
         localStorage.setItem("authToken", token);
         setLoading(false);
-        props.onLogin(true);
+        handleLogin(true);
       })
       .catch((err) => {
         setError(true);
